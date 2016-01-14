@@ -10,9 +10,45 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+use App\Note;
+use App\User;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
+    return view('login');
+});
+
+Route::get('/welcome', function () {
+
     return view('welcome');
+    // return "hiiiii";
+});
+
+Route::get('/users', function () {
+	$users = User::orderBy('created_at', 'asc')->get();
+
+    return view('users', ['users' => $users]);
+
+});
+
+
+
+Route::post('/login', function (Request $request) {
+
+    $validator = Validator::make($request->all(), [
+        'email' => 'required|max:5',
+        'password' => 'required|max:5'
+    ]);
+
+    if ($validator->fails()) {
+        return redirect('/')
+            ->withInput()
+            ->withErrors($validator);
+    }
+
+    return redirect('/welcome');
+
+    // Create The Task...
 });
 
 /*
