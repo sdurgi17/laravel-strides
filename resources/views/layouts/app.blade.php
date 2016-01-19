@@ -34,7 +34,7 @@
 </head>
 
 <body>
-<div><h6>header</h6></div>
+    <div><h6>header</h6></div>
     
     @yield('content')
 

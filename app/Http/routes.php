@@ -14,42 +14,24 @@ use App\Note;
 use App\User;
 use Illuminate\Http\Request;
 
-Route::get('/', function () {
-    return view('login');
+
+Route::get('/login', function () {
+	return view('login');
 });
 
 Route::get('/welcome', function () {
 
-    return view('welcome');
-    // return "hiiiii";
+	return view('welcome'); 		 
 });
 
-Route::get('/users', function () {
-	$users = User::orderBy('created_at', 'asc')->get();
+Route::get('/users', 'UserController@showUsers');
+Route::post('/login', 'UserController@login');
+Route::get('/signup', 'UserController@getSignupView');
+Route::post('/create', 'Auth\AuthController@create');
+// Route::post('/create', function() {
+// 	var_dump($_POST);
+// });
 
-    return view('users', ['users' => $users]);
-
-});
-
-
-
-Route::post('/login', function (Request $request) {
-
-    $validator = Validator::make($request->all(), [
-        'email' => 'required|max:5',
-        'password' => 'required|max:5'
-    ]);
-
-    if ($validator->fails()) {
-        return redirect('/')
-            ->withInput()
-            ->withErrors($validator);
-    }
-
-    return redirect('/welcome');
-
-    // Create The Task...
-});
 
 /*
 |--------------------------------------------------------------------------
